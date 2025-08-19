@@ -7,7 +7,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 // const userRoutes = require("./routes/users");
 // const categoryRoutes = require("./routes/categories");
-// const requestRoutes = require("./routes/requests");
+const requestRoutes = require("./routes/requests");
 
 const app = express();
 const PORT = 8080;
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 // app.use("/users", userRoutes);
 // app.use("/categories", categoryRoutes);
-// app.use("/requests", requestRoutes);
+app.use("/requests", requestRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "This is our Approval App" });
