@@ -1,0 +1,16 @@
+POST-
+http://localhost:8080/auth/login
+{
+  "email": "admin1@gmail.com",
+  "password": "admin@123"
+}
+
+{
+   "email": "approver@gmail.com",
+  "password": "approver@123"
+}
+
+{
+   "email": "user1@gmail.com",
+  "password": "user@123"
+}
