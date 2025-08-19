@@ -35,4 +35,22 @@ router.post(
   }
 );
 
+router.get(
+  "/approver-inbox",
+  authenticateToken,
+  authorizeRoles(["approver"]),
+  async (req, res) => {
+    try {
+      const approverInboxReq = await pool.query(
+        `select * from requests where decided_by=$1`,
+        [req.user.id]
+      );
+      res.status(200).json(approverInboxReq.rows[0]);
+    } catch (err) {
+      console.error("Login Error-", err);
+      res.status(500).json({ message: "Login Server Error" });
+    }
+  }
+);
+
 module.exports = router;
