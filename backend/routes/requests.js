@@ -53,4 +53,58 @@ router.get(
   }
 );
 
+router.post(
+  "/:id/approve",
+  authenticateToken,
+  authorizeRoles(["approver"]),
+  async (req, res) => {
+    const { id } = req.params;
+    const { remarks } = req.body;
+    try {
+      const updatedReq = await pool.query(
+        `UPDATE requests SET status='approved', decided_by=$1, decided_at=now() where id=$2 RETURNING *`,
+        [req.user.id, id]
+      );
+
+      await pool.query(
+        `INSERT INTO request_history (request_id, from_user, to_user, request_status, remarks)
+    VALUES ($1,$2,NULL,'approved',$3)`,
+        [id, req.user.id, remarks]
+      );
+
+      res.status(201).json(updatedReq.rows[0]);
+    } catch (err) {
+      console.error("Login Error-", err);
+      res.status(500).json({ message: "Login Server Error" });
+    }
+  }
+);
+
+router.post(
+  "/:id/reject",
+  authenticateToken,
+  authorizeRoles(["approver"]),
+  async (req, res) => {
+    const { id } = req.params;
+    const { remarks } = req.body;
+    try {
+      const updatedReq = await pool.query(
+        `UPDATE requests SET status='rejected', decided_by=$1, decided_at=now() where id=$2 RETURNING *`,
+        [req.user.id, id]
+      );
+
+      await pool.query(
+        `INSERT INTO request_history (request_id, from_user, to_user, request_status, remarks)
+    VALUES ($1,$2,NULL,'rejected',$3)`,
+        [id, req.user.id, remarks]
+      );
+
+      res.status(201).json(updatedReq.rows[0]);
+    } catch (err) {
+      console.error("Login Error-", err);
+      res.status(500).json({ message: "Login Server Error" });
+    }
+  }
+);
+
 module.exports = router;
