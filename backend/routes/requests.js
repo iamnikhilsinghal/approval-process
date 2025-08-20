@@ -36,6 +36,21 @@ router.post(
 );
 
 router.get(
+  "/admin-user-list",
+  authenticateToken,
+  authorizeRoles(["admin"]),
+  async (req, res) => {
+    try {
+      const adminUserList = await pool.query(`select * from requests`);
+      res.status(200).json(adminUserList.rows[0]);
+    } catch (err) {
+      console.error("Login Error-", err);
+      res.status(500).json({ message: "Login Server Errorrr" });
+    }
+  }
+);
+
+router.get(
   "/approver-inbox",
   authenticateToken,
   authorizeRoles(["approver"]),
