@@ -1,0 +1,34 @@
+<button *ngIf="!authService.isUserLoggedIn()" [routerLink]="['/login']">Login</button>
+
+<!-- New Request- USER
+My Requests - USER
+Approver Inbox - APPROVER
+Admin Users - ADMIN -->
+
+<nav class="navbar">
+  <div class="logo">Approval App</div>
+
+  <ul class="nav-links">
+    <!-- USER -->
+    <li *ngIf="role === 'user'">
+      <a routerLink="/new-request" routerLinkActive="active">New Request</a>
+    </li>
+    <li *ngIf="role === 'user'">
+      <a routerLink="/my-requests" routerLinkActive="active">My Requests</a>
+    </li>
+
+    <!-- APPROVER -->
+    <li *ngIf="role === 'approver'">
+      <a routerLink="/approver-inbox" routerLinkActive="active">Approver Inbox</a>
+    </li>
+
+    <!-- ADMIN -->
+    <li *ngIf="role === 'admin'">
+      <a routerLink="/admin-users" routerLinkActive="active">Admin Users</a>
+    </li>
+
+    <li *ngIf="authService.isUserLoggedIn()">
+      <a (click)="authService.logout()">Logout</a>
+    </li>
+  </ul>
+</nav>
