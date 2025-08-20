@@ -42,7 +42,7 @@ router.get(
   async (req, res) => {
     try {
       const adminUserList = await pool.query(`select * from requests`);
-      res.status(200).json(adminUserList.rows[0]);
+      res.status(200).json(adminUserList.rows);
     } catch (err) {
       console.error("Login Error-", err);
       res.status(500).json({ message: "Login Server Errorrr" });
