@@ -10,7 +10,7 @@ export class ApiService {
 
   BASE_URL = 'http://localhost:8080/requests';
 
-  createRequest(reqData: { categoty_id: string; title: string; description: string }) {
+  createRequest(reqData: any) {
     return this.http.post(`${this.BASE_URL}`, reqData);
   }
 }

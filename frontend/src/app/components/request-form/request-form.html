@@ -30,6 +30,12 @@
 
   <br />
 
+  <label>
+    Upload File:
+    <input type="file" (change)="onFileSelected($event)" />
+  </label>
+  <br /><br />
+
   <!-- Submit -->
   <button type="submit" [disabled]="requestForm.invalid">Submit Request</button>
 </form>

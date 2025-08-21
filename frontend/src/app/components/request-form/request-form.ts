@@ -13,6 +13,7 @@ import { ApiService } from '../../services/api-service';
 })
 export class RequestForm {
   requestForm: FormGroup;
+  selectedFile: File | null = null;
 
   // get it by API
   categories = [
@@ -29,13 +30,29 @@ export class RequestForm {
     });
   }
 
+  onFileSelected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
+    }
+  }
+
   onSubmit() {
     if (this.requestForm.invalid) {
       this.requestForm.markAllAsTouched();
       return;
     }
 
-    this.apiService.createRequest(this.requestForm.value).subscribe({
+    const formData = new FormData();
+    formData.append('categoty_id', this.requestForm.value.categoty_id!);
+    formData.append('title', this.requestForm.value.title!);
+    formData.append('description', this.requestForm.value.description!);
+
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile);
+    }
+
+    this.apiService.createRequest(formData).subscribe({
       next: (res) => {
         console.log('Request created:', res);
         alert('Request submitted successfully ✅');

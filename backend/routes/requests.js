@@ -5,20 +5,37 @@ const {
   authorizeRoles,
 } = require("../middleware/authMiddleware");
 const pool = require("../db");
+const multer = require("multer");
+const cors = require("cors");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // folder to store files
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = Date.now() + "-" + file.originalname;
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.post(
   "/",
   authenticateToken,
   authorizeRoles(["user"]),
+  upload.single("file"),
   async (req, res) => {
     const { categoty_id, title, description } = req.body;
+    const file = req.file;
     try {
       if (!categoty_id || !title || !description)
         return res.status(400).json({ error: "Missing Fields" });
       const createdReq = await pool.query(
-        `INSERT INTO requests (user_id, category_id, title, description)
-    VALUES ($1,$2,$3,$4) RETURNING *`,
-        [req.user.id, categoty_id, title, description]
+        `INSERT INTO requests (user_id, category_id, title, description, document_url)
+    VALUES ($1,$2,$3,$4,$5) RETURNING *`,
+        [req.user.id, categoty_id, title, description, file.path]
       );
 
       await pool.query(
