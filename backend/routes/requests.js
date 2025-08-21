@@ -20,7 +20,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
 router.post(
   "/",
   authenticateToken,
@@ -68,6 +67,24 @@ router.get(
 );
 
 router.get(
+  "/approver-request-list",
+  authenticateToken,
+  authorizeRoles(["approver"]),
+  async (req, res) => {
+    try {
+      const adminUserList = await pool.query(
+        `select * from requests where decided_by=$1`,
+        [req.user.id]
+      );
+      res.status(200).json(adminUserList.rows);
+    } catch (err) {
+      console.error("Login Error-", err);
+      res.status(500).json({ message: "Login Server Errorrr" });
+    }
+  }
+);
+
+router.get(
   "/approver-inbox",
   authenticateToken,
   authorizeRoles(["approver"]),
@@ -77,7 +94,7 @@ router.get(
         `select * from requests where decided_by=$1`,
         [req.user.id]
       );
-      res.status(200).json(approverInboxReq.rows[0]);
+      res.status(200).json(approverInboxReq.rows);
     } catch (err) {
       console.error("Login Error-", err);
       res.status(500).json({ message: "Login Server Error" });

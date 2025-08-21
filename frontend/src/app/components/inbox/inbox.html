@@ -1,3 +1,44 @@
-<p>inbox works!</p>
-
-
+<div class="table-container">
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Document</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Decided At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let req of requests">
+        <td>{{ req.title }}</td>
+        <td>{{ req.description }}</td>
+        <td>
+          <a *ngIf="req.document_url" [href]="req.document_url" target="_blank">View File</a>
+          <span *ngIf="!req.document_url">No File</span>
+        </td>
+        <td>{{ req.status }}</td>
+        <td>{{ req.created_at | date : 'short' }}</td>
+        <td>{{ req.decided_at ? (req.decided_at | date : 'short') : 'Not Decided' }}</td>
+        <td>
+          <button
+            class="btn approve"
+            (click)="updateStatus(req.id, 'approved')"
+            [disabled]="req.status !== 'pending'"
+          >
+            Approve
+          </button>
+          <button
+            class="btn reject"
+            (click)="updateStatus(req.id, 'rejected')"
+            [disabled]="req.status !== 'pending'"
+          >
+            Reject
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
