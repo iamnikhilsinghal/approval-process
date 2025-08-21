@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth");
 // const userRoutes = require("./routes/users");
 // const categoryRoutes = require("./routes/categories");
 const requestRoutes = require("./routes/requests");
+const path = require("path");
 
 const app = express();
 const PORT = 8080;
@@ -18,6 +19,8 @@ app.use("/auth", authRoutes);
 // app.use("/users", userRoutes);
 // app.use("/categories", categoryRoutes);
 app.use("/requests", requestRoutes);
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.json({ message: "This is our Approval App" });

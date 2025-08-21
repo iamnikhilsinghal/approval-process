@@ -1,1 +1,44 @@
 <p>admin-users works!</p>
+<h3>Requests Table</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Document</th>
+      <th>Status</th>
+      <th>Decided By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let req of requestList">
+      <td>{{ req.user_id }}</td>
+      <td>{{ req.title }}</td>
+      <td>{{ req.description }}</td>
+      <td>
+        <ng-container *ngIf="req.document_url; else noDoc">
+          <img
+            *ngIf="isValidUrl(req)"
+            [src]="'http://localhost:8080' + req.document_url"
+            alt="Document"
+            class="doc-img"
+          />
+          <!-- <a
+            *ngIf="req.document_url.match(/\.(pdf|doc|docx)$/i)"
+            [href]="'http://localhost:4000' + req.document_url"
+            target="_blank"
+          >
+            View Document
+          </a> -->
+        </ng-container>
+        <ng-template #noDoc>
+          <span>No Document</span>
+        </ng-template>
+      </td>
+      <td>{{ req.status }}</td>
+      <td>{{ req.decided_by || 'Pending' }}</td>
+    </tr>
+  </tbody>
+</table>

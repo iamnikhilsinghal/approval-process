@@ -13,4 +13,8 @@ export class ApiService {
   createRequest(reqData: any) {
     return this.http.post(`${this.BASE_URL}`, reqData);
   }
+
+  getAdminRequests() {
+    return this.http.get(`${this.BASE_URL}/admin-request-list`);
+  }
 }

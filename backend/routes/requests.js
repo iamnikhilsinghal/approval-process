@@ -7,7 +7,6 @@ const {
 const pool = require("../db");
 const multer = require("multer");
 const cors = require("cors");
-const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -20,6 +19,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 
 router.post(
   "/",
@@ -53,7 +53,7 @@ router.post(
 );
 
 router.get(
-  "/admin-user-list",
+  "/admin-request-list",
   authenticateToken,
   authorizeRoles(["admin"]),
   async (req, res) => {

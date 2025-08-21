@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+thead {
+  background: #1e293b;
+  color: white;
+}
+
+th,
+td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.doc-img {
+  max-width: 100px;
+  max-height: 80px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
