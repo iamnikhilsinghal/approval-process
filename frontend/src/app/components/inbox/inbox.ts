@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../../services/api-service';
 import { CommonModule, DatePipe } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-inbox',
@@ -52,5 +53,10 @@ export class Inbox {
         },
       });
     }
+  }
+
+  getFileUrl(path: string) {
+    if (!path) return null;
+    return `${environment.apiUrl}/${path}`;
   }
 }

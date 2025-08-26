@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 export class ApiService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  BASE_URL = 'http://localhost:8080/requests';
+  BASE_URL = `${environment.apiUrl}/requests`;
 
   createRequest(reqData: any) {
     return this.http.post(`${this.BASE_URL}`, reqData);

@@ -16,7 +16,9 @@
         <td>{{ req.title }}</td>
         <td>{{ req.description }}</td>
         <td>
-          <a *ngIf="req.document_url" [href]="req.document_url" target="_blank">View File</a>
+          <a *ngIf="req.document_url" [href]="getFileUrl(req.document_url)" target="_blank"
+            >View File</a
+          >
           <span *ngIf="!req.document_url">No File</span>
         </td>
         <td>{{ req.status }}</td>
